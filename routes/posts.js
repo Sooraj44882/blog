@@ -25,4 +25,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id, 
+      { $set: req.body }, 
+      { new: true } 
+    );
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update post" });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    await Post.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete post" });
+  }
+});
+
 module.exports = router;
