@@ -16,5 +16,13 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: "Failed to create post" });
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
+});
 
 module.exports = router;
